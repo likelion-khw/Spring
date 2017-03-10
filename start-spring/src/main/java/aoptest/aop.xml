@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="target1" class="aoptest.AOPTarget1" />
+	<bean id="target2" class="aoptest.AOPTarget2" />
+	<bean id="adv" class="aoptest.AOPAdvice" />
+
+	<!-- 2.aop설정 2-1.pointcut정의 : target설정 2-2.advice객체 정의 2-2-1.시점 advice -->
+
+	<aop:config>
+		<aop:pointcut expression="execution (public * aoptest..*.*(..))" id="p1"/>
+		<aop:aspect id="adv" ref="adv">
+			<!-- <aop:before method="beforemethod" pointcut-ref="p1"/>  -->
+			<!-- <aop:after method="aftermethod" pointcut-ref="p1"/>  -->
+			<!-- <aop:after-returning method="aftermethod" pointcut-ref="p1" returning="returnValue"/> -->
+			<aop:around method="aroundmethod" pointcut-ref="p1" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>
