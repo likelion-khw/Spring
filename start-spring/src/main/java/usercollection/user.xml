@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="vo1" class="usercollection.UserVO">    <!-- vo -->
+		<property name="name" value="이자바" />    <!-- setter 메소드 호출하는 태그 -->
+		<property name="age" value="25" />
+	</bean>
+
+	<bean id="vo2" class="usercollection.UserVO">    <!-- vo -->
+		<property name="name" value="홍길동" />    <!-- setter 메소드 호출하는 태그 -->
+		<property name="age" value="21" />
+	</bean>
+
+	<bean id="vo3" class="usercollection.UserVO">    <!-- vo -->
+		<property name="name" value="심청이" />    <!-- setter 메소드 호출하는 태그 -->
+		<property name="age" value="18" />
+	</bean>
+
+	<bean id="vo4" class="usercollection.UserVO">    <!-- vo -->
+		<property name="name" value="송새" />    <!-- setter 메소드 호출하는 태그 -->
+		<property name="age" value="31" />
+	</bean>
+
+	<bean id="vo5" class="usercollection.UserVO">    <!-- vo -->
+		<property name="name" value="변요한" />    <!-- setter 메소드 호출하는 태그 -->
+		<property name="age" value="28" />
+	</bean>
+
+
+	<bean id="dao" class="usercollection.UserDAO">
+		<property name="vo" ref="vo1" />
+
+		<property name="userlist">
+			<list>
+				<ref bean="vo1" />
+				<ref bean="vo2" />
+				<ref bean="vo3" />
+				<ref bean="vo4" />
+				<ref bean="vo5" />
+				<ref bean="vo1" />
+			</list>
+		</property>
+
+		<property name="userset">
+			<set>
+				<ref bean="vo1" />
+				<ref bean="vo2" />
+				<ref bean="vo3" />
+				<ref bean="vo4" />
+				<ref bean="vo5" />
+				<ref bean="vo1" />
+			</set>
+		</property>
+
+		<property name="usermap">
+			<map>
+				<entry key="vo">
+					<bean class="usercollection.UserVO">
+						<property name="name" value="이자방" />
+						<property name="age" value="99" />
+					</bean>
+				</entry>
+				<entry key="vo1">
+					<ref bean="vo1" />
+				</entry>
+				<entry key="vo2">
+					<ref bean="vo2" />
+				</entry>
+				<entry key="vo3">
+					<ref bean="vo3" />
+				</entry>
+				<entry key="vo4">
+					<ref bean="vo4" />
+				</entry>
+				<entry key="vo5">
+					<ref bean="vo5" />
+				</entry>
+			</map>
+		</property>
+	</bean>  <!-- dao -->
+
+	<bean id="service" class="usercollection.UserServiceImp1">   <!-- service -->
+		<property name="dao" ref="dao" />   <!-- ref는 기존에 만들어진게 있다면 참조하라 -->
+	</bean>
+</beans>
