@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan base-package="emp" />
+	
+	<bean id="empVO" class="emp.EmpVO">
+		<property name="id" value="1005" />
+		<property name="name" value="박역량" />
+		<property name="role" value="사원" />
+		<property name="salary" value="10000" />
+		<property name="hiredate" value="2013/03/02" />
+		<property name="deptNo" value="80" />
+	</bean>
+
+	<bean id="empVO1" class="emp.EmpVO">
+		<property name="id" value="1006" />
+		<property name="name" value="장그래" />
+		<property name="role" value="사원" />
+		<property name="salary" value="234000" />
+		<property name="hiredate" value="2013/01/02" />
+		<property name="deptNo" value="80" />
+	</bean>
+
+	<bean id="empVO2" class="emp.EmpVO">
+		<property name="id" value="1007" />
+		<property name="name" value="오상식" />
+		<property name="role" value="차장" />
+		<property name="salary" value="99999" />
+		<property name="hiredate" value="2008/01/02" />
+		<property name="deptNo" value="80" />
+	</bean>
+
+	<bean id="empDAO" class="emp.EmpDAO">
+		<property name="list">
+			<list>
+				<ref bean="empVO1" />
+				<ref bean="empVO2" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
