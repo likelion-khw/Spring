@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+<!-- 	<bean id="loginformController" class="edu.bit.mymvc2.LoginFormController"/>
+	<bean id="loginsuccessController" class="edu.bit.mymvc2.LoginSuccessController"/>
+	
+	<bean id="helloController" class="edu.bit.mymvc2.HelloController"/>
+	
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/hello.action">helloController</prop>
+				<prop key="/loginform.action">loginformController</prop>
+				<prop key="/loginsuccess.action">loginsuccessController</prop>
+			</props>
+		</property>
+	</bean>	 -->
+	
+	
+</beans>
