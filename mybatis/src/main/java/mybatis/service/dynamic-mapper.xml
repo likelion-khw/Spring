@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http:mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--  test.all 로 호출 (mapper 파일의 이름(namespace : 선택적사항이지만 중복방지시 필요)으로 여러 mapper파일 구분)-->
+<mapper namespace="dynamic">
+	<resultMap id="empVOMap" type="empvo">
+	<!-- empVOMAP 객체식별자 = DB PK -->
+		<id property="id" column="employee_id" javaType="int"/>
+		<result property="name" column="first_name" />
+		<result property="email" column="email" />
+		<result property="hire_date" column="hire_date" javaType="String" jdbcType="DATE"/>
+		<result property="job_id" column="job_id" />
+		<result property="salary" column="salary" />
+	</resultMap>
+
+	<!-- sql를 조각별로 나뉘어서 조합하여 사용한다  (재사용성 증가)-->
+	<sql id="select-emp">
+		select * from employees
+	</sql>
+	
+	<sql id="where-id">
+		where employee_id >= #{value_id}
+	</sql>
+	
+	<sql id="order-id">
+		order by employee_id desc
+	</sql>
+	
+	<select id="getEmpReuse" resultMap="empVOMap" parameterType="int">
+		<include refid="select-emp"/>
+		<include refid="where-id"/>
+	</select>
+	
+	<select id="getEmpReuse2" resultMap="empVOMap">
+		<include refid="select-emp"/>
+		<include refid="order-id"/>
+	</select>
+</mapper>
