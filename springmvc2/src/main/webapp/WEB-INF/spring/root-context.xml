@@ -19,5 +19,23 @@
 		</property>
 	</bean>	 -->
 	
+	<!-- 1. 메시지파일 설정 bean -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<property name="basenames">
+		<list><!--webapp는 생략  -->
+		<value>/WEB-INF/messages/message</value>
+		<value>/WEB-INF/messages/login</value>
+		</list>
+	</property>
+	</bean>
 	
+	<!-- 2. localeChangeInterceptor ? lang=ko -->
+	<bean id="localeChangeInterceptor" class="edu.bit.mymvc2.LoginFormController"/>
+	
+	<!-- 3. localeResolver(Cookie & Session) bean -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+	
+	
+	
+	<!-- 어노테이션 미사용시 여기에 빈태그로 일일이 작성요망 -->
 </beans>
