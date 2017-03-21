@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 1. spring datasource 설정 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+		<property name="username" value="hr" />
+		<property name="password" value="hr" />
+	</bean>
+	
+	<!-- 2. SqlSessionFactory 생성 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="mybatis/spring/configuration.xml"/>
+	</bean>
+	
+	<!-- 3. SqlSession 생성 = spring SqlSessionTemplate -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- 4. service, dao, vo ... -->
+	<bean id="empDAO" class="mybatis.spring.EmpDAO" >
+		<property name="session" ref="sqlSessionTemplate" />
+	</bean>
+	<bean id="empService" class="mybatis.spring.EmpServiceImpl">
+		<property name="dao" ref="empDAO" />
+	</bean>
+	
+	
+</beans>
