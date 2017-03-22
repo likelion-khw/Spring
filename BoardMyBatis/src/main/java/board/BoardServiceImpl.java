@@ -2,14 +2,17 @@ package board;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("boardService")
 public class BoardServiceImpl implements BoardService{
 	
-	BoardDAO dao = new BoardDAO();
-	
-	public void setSession(SqlSession session) {
-		dao.setSession(session);
+	@Autowired
+	BoardDAO dao;
+
+	public void setDao(BoardDAO dao) {
+		this.dao = dao;
 	}
 
 	public List<BoardVO> getBoardAll(){
