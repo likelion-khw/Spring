@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http:mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--  test.all 로 호출 (mapper 파일의 이름(namespace : 선택적사항이지만 중복방지시 필요)으로 여러 mapper파일 구분)-->
+<mapper namespace="emp">
+
+	<resultMap id="empVOMap" type="empvo">
+	<!-- empVOMAP 객체식별자 = DB PK -->
+		<id property="id" column="employee_id" javaType="int"/>
+		<result property="name" column="first_name" />
+		<result property="email" column="email" />
+		<result property="hire_date" column="hire_date" javaType="String" jdbcType="DATE"/>
+		<result property="job_id" column="job_id" />
+		<result property="salary" column="salary" />
+	</resultMap>
+	
+	<select id="allByResultMap" resultMap="empVOMap">
+		select employee_id, first_name, job_id, hire_date from employees
+	</select>
+
+	<select id="all" resultMap="empVOMap">
+		<!-- select employee_id id, first_name ||':'|| last_name name, job_id, to_char(hire_date,'yy-mm-dd') as hire_date from employees -->
+		select * from employees
+	</select>
+	
+	<select id="one" resultMap="empVOMap" parameterType="int">
+		select * from employees where employee_id = #{employee_id}  <!-- 변수명은 아무거나 상관없다 -->
+	</select>
+	
+	<!-- EmpVO vo = new EmpVO();
+		 vo.setEmployee_id(200)
+		 
+	 -->
+	<select id="oneEmpVO" resultType="empvo">
+		select employee_id, first_name, department_id, job_id, to_char(hire_date,'yy-mm-dd') as hire_date 
+		from employees where employee_id = #{employee_id}  <!-- 변수명은 아무거나 상관없다 -->
+	</select>
+	
+	<!--  id는 필수 조건 -->
+	<insert id="insertEmpWithSelectKey" parameterType="empvo">   <!-- configuration.xml에서 지정한  mybatis.EmpVO의 Alias 인 empvo 기재 -->
+		<selectKey keyProperty="employee_id" resultType="int" order="BEFORE"> <!--insert하기전에 seq를 key값으로 설정 -->
+			select emp_id_seq.nextval from dual
+		</selectKey>
+		insert into employees values(#{employee_id},#{first_name},#{last_name},#{email},#{phone_number},sysdate,#{job_id},#{salary},#{commission_pct},#{manager_id},#{department_id})
+	</insert>
+	
+	<insert id="insertEmp" parameterType="empvo">   <!-- configuration.xml에서 지정한  mybatis.EmpVO의 Alias 인 empvo 기재 -->
+		insert into employees values(#{id},#{name},'성',#{email},'010-1234-4567',sysdate,#{job_id},#{salary},0,100,80)
+	</insert>
+	
+	
+	<!-- 500인 사번의 사원의 부서 80번, 직종을 IT_PROG로 변경 -->
+	<update id="updateEmp" parameterType="empvo">
+		update employees set department_id = #{department_id}, job_id = #{job_id} where employee_id = #{employee_id}
+	</update>
+	
+	<delete id="deleteEmp" parameterType="int">
+		delete employees where employee_id = #{employee_id}
+	</delete>
+	
+</mapper>

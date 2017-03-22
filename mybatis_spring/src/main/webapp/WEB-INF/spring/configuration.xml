@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http:mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<!-- 1.타입 alias 설정 : 선택적 (resultType)-->
+	<typeAliases>
+		<typeAlias alias="empvo" type="com.spring.mybatis.EmpVO" />
+		<typeAlias alias="jobvo" type="com.spring.mybatis.JobVO" />
+	</typeAliases>
+
+	<!-- 2.DB연결정보 설정은 spring으로 -->
+
+	<!-- 3.mapper 파일 설정 -->
+	<!-- <mappers> -->
+<!-- 		<mapper resource="mybatis/spring/test-mapper.xml" />
+		<mapper resource="mybatis/spring/dynamic-mapper.xml" /> -->
+	<!-- </mappers> -->
+
+</configuration>

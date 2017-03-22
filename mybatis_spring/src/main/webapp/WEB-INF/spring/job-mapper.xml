@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http:mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- test.all 로 호출 (mapper 파일의 이름(namespace : 선택적사항이지만 중복방지시 필요)으로 여러 mapper파일 
+	구분) -->
+<mapper namespace="job">
+	<select id="joblist" resultType="jobvo">
+		select job_id, job_title from jobs
+	</select>
+</mapper>
