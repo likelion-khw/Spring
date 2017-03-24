@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http:mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bakery">
+	<select id="all" resultType="bakeryvo">
+		select * from bakery
+	</select>
+	
+	<select id="one" resultType="bakeryvo" parameterType="int">
+		select * from bakery where bakeryid = #{bakeryid}
+	</select>
+	
+	<select id="balance" resultType="int" parameterType="int">
+		select balance from bakery where bakeryid = #{bakeryid}
+	</select>
+	
+	<update id="buy" parameterType="int[]">
+		update bakery set balance = balance - 
+		<foreach item="num" collection="array" separator="where bakeryid =" >
+		#{num}
+		</foreach>
+	</update>
+	
+	<insert id="sell" parameterType="bakeryvo">
+		insert into bakery values(bakery_seq.nextval,#{bakeryname},#{price},#{balance},#{image})
+	</insert>
+	
+	<select id="check" parameterType="string" resultType="int">
+		select count(*) from bakery where bakeryname = #{bakeryname}
+	</select>
+	
+	<update id="update" parameterType="bakeryvo">
+		update bakery
+		<set>
+			<if test="bakeryname != null">
+				bakeryname = #{bakeryname},
+			</if>
+			<if test="price != 0">
+				price = #{price},
+			</if>
+			<if test="balance != 0">
+				balance = #{balance}
+			</if>
+			
+			where bakeryid = #{bakeryid}
+		</set>
+	</update>
+</mapper>
