@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.List,com.khw.bakery.*"%>
+	pageEncoding="UTF-8" import="java.util.List,com.khw.bakery.*,login.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../advice.jsp"%>
 <%
 	int total = 0;
 	List<BakeryVO> list = (List<BakeryVO>) request.getAttribute("list");
@@ -22,7 +23,8 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/earlyaccess/hanna.css">
+<link rel="stylesheet" type="text/css"
+	href="http://fonts.googleapis.com/earlyaccess/hanna.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 <script
@@ -30,10 +32,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>결제완료</title>
 <style type="text/css">
 * {
-	font-family:'Hanna';
+	font-family: 'Hanna';
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
@@ -72,20 +74,11 @@ img {
 			</h2>
 		</div>
 	</div>
-	<a href="order.bakery"><input style="margin-bottom: 50px;"
-		type="button" value="구입하기" class="btn blue"></a>
+	<a href="orderhistory.bakery?userid=${loginvo.userid}"><input style="margin-bottom: 50px;"
+		type="button" value="결제목록" class="btn blue"></a>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		})
+	</script>
 </body>
-
-<div class="fixed-action-btn horizontal" style="bottom: 90%">
-	<a class="btn-floating btn-large red"> <i class="material-icons">menu</i>
-	</a>
-	<ul>
-		<li><a class="btn-floating red" href="order.bakery"><i
-				class="material-icons">shopping_basket</i></a></li>
-		<li><a class="btn-floating green" href="insert.bakery"><i
-				class="material-icons">publish</i></a></li>
-		<li><a class="btn-floating blue" href="store.bakery"><i
-				class="material-icons">view_module</i></a></li>
-	</ul>
-</div>
 </html>

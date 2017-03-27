@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="transaction">
+	<select id="all" parameterType="int" resultType="transaction.EmpVO">
+		select * from EMPLOYEES where employee_id >= #{id}
+	</select>
+	<insert id="insertEmp" parameterType="transaction.EmpVO">
+		INSERT INTO employees (employee_id, last_name, email, job_id, hire_date)
+		VALUES (#{employee_id},
+		#{last_name},
+		#{email},
+		#{job_id},
+		sysdate)
+	</insert>
+
+</mapper>

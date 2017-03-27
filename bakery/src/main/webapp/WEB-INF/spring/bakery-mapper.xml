@@ -45,4 +45,18 @@
 			where bakeryid = #{bakeryid}
 		</set>
 	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete bakery where bakeryid = #{bakeryid}
+	</delete>
+	
+	<select id="selectOrderHistory" parameterType="string" resultType="ordervo">
+		select bakeryname, price, amount, orderdate, price*amount pay, m.money-(price*amount) money
+		from orderhistory o, bakery b, bakerymember m
+		where m.userid = #{userid} and o.bakeryid = b.bakeryid and o.userid = m.userid order by orderdate desc
+	</select>
+	
+	<insert id="insertOrderHistory" parameterType="com.khw.bakery.OrderHistoryVO">
+		insert into orderhistory values(#{userid},#{bakeryid},#{amount},sysdate)
+	</insert>
 </mapper>

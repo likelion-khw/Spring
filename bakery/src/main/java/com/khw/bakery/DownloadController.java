@@ -21,7 +21,7 @@ public class DownloadController{
 		String name = request.getParameter("name");
 		
 		// 다운로드 할 대상
-		File f = new File("/Users/woong/Desktop/"+name);
+		File f = new File("/Users/woong/git/Spring_/bakery/src/main/webapp/"+name);
 		
 		// 다운로드 컨텐츠 타입, 길이 설정
 		response.setContentType("text/html; charset=utf-8");

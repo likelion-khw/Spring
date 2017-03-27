@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.List,com.khw.bakery.*,login.*"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../advice.jsp" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -88,26 +91,12 @@ div.main {
 		</form>
 	</div>
 
-	<div class="fixed-action-btn horizontal" style="bottom: 90%">
-		<a class="btn-floating btn-large red"> <i class="material-icons">menu</i>
-		</a>
-		<ul>
-			<li><a class="btn-floating red" href="order.bakery"><i
-					class="material-icons">shopping_basket</i></a></li>
-			<li><a class="btn-floating green" href="insert.bakery"><i
-					class="material-icons">publish</i></a></li>
-			<li><a class="btn-floating blue" href="store.bakery"><i
-					class="material-icons">view_module</i></a></li>
-		</ul>
-	</div>
-
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('input[type=file]').on('change', function(e) {
 				var image = URL.createObjectURL(e.target.files[0]);
 				$("img").fadeIn("fast").attr('src', image);
 			})
-
 		})
 	</script>
 </body>

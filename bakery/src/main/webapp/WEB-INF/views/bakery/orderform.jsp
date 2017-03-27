@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.List,com.khw.bakery.*"%>
+	pageEncoding="UTF-8" import="java.util.List,com.khw.bakery.*,login.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	List<BakeryVO> list = (List<BakeryVO>)request.getAttribute("list");
 	int size = list.size()-1;
 %>
+<%@ include file="../advice.jsp" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -38,7 +39,7 @@
 }
 
 div.main{
-	margin-top:50px;w
+	margin-top:50px;
 }
 
 </style>
@@ -70,7 +71,8 @@ div.main{
 		    </div></li>
 		    <li>
 		    <input type="button" value="모두 비우기" class="btn red">
-		    <div id="items"></div>
+		    <input type="hidden" name="userid" value=${loginvo.userid}>
+		    <div id="items" style="margin:10px"></div>
 		    </li>
 		  </ul>
 		</form>
@@ -81,24 +83,9 @@ div.main{
 		<%
 		for (BakeryVO vo : list) {
 		%>
-     		 <div class="carousel-item"><%=vo.getBakeryname()%><img src="<%=vo.getImage() %>"><%=vo.getPrice()%>원</div>
+     		 <div class="carousel-item"><%=vo.getBakeryname()%><a href="download.file?name=<%=vo.getImage() %>"><img src="<%=vo.getImage() %>"></a><%=vo.getPrice()%>원</div>
      	<%} %>
     </div>
-    
-   <!-- 추가 푸쉬 버튼 들  -->
-   <div class="fixed-action-btn horizontal" style="bottom: 90%">
-		<a class="btn-floating btn-large red"> <i class="material-icons">menu</i>
-		</a>
-		<ul>
-			<li><a class="btn-floating red" href="order.bakery"><i
-					class="material-icons">shopping_basket</i></a></li>
-			<li><a class="btn-floating green" href="insert.bakery"><i
-					class="material-icons">publish</i></a></li>
-			<li><a class="btn-floating blue" href="store.bakery"><i
-					class="material-icons">view_module</i></a></li>
-		</ul>
-	</div>
-  
   
   <!-- 장바구니 추가 없이 구입 후 에러 메시지 -->
   <div id="error" class="modal main">
@@ -116,7 +103,7 @@ div.main{
 					$(document).ready(function() {
 						
 						$(document).on('click','#itembtn', function(){
-								$(this).parent().remove();
+								$(this).parent().parent().remove();
 							})
 							
 						$('#slide-out input').on('click',function(){
@@ -131,24 +118,50 @@ div.main{
 										e.preventDefault();
 									}
 							});
-						$('#cartadd').on('click',function(){
+						
+						$(document).on('click','#cartadd',function(){
 								var item = $("#item").val();
 								var bal = $("#balanceform").val();
-								var hidden = "<div><input type=\"hidden\" name=\"item\" value=\""+ parseInt(item) +":"+parseInt(bal)+"\">";
+								var hidden = "<div id=\""+item+"add\"><input type=\"hidden\" name=\"item\" value=\""+ parseInt(item) +":"+parseInt(bal)+"\">";
 								var button = "<input type=\"button\" value=\"X\" id=\"itembtn\">";
+								var array = new Array;
+								array = itemadd();
 
-								$.ajax({
-									type : 'post',
-									data : {'bakeryid' : item },
-									url : 'itemSearch.bakery',
-									success : function(result){
-											var image = "<img src=\""+result.image+"\" style=\"width:250px\"><br>"
-											$("div#items").html($("div#items").html()+  hidden+ image +"상품명 = " + result.bakeryname + " || 구입 수량 = " + bal +"개 "+button +"<br></div>");
-										}
-									})
+								for(var i=0; i<array.length; i++)
+									{
+										var check = array[i].split(':');
+										var id = ('#'+item+'add');
+											if(item == check[0])
+												{
+													var temp = $(id).text().split('||');
+													$(id+' input[name=item]').val(parseInt(item) +":"+ ( parseInt(bal) + parseInt(check[1])));
+													$(id+' div').html(temp[0] + " || 구입 수량 = " + ( parseInt(bal) + parseInt(check[1])) +"개 "+button);
+													$(".button-collapse").sideNav('show');
+													return false;
+												}
+									}
+										
+										$.ajax({
+											type : 'post',
+											data : {'bakeryid' : item },
+											url : 'itemSearch.bakery',
+											success : function(result){
+													var image = "<img src=\""+result.image+"\" style=\"width:250px\"><br>"
+													$("div#items").html($("div#items").html() + hidden + image +"<div>상품명 = " + result.bakeryname + " || 구입 수량 = " + bal +"개 "+button +"</div><br></div>");
+												}
+											})
 								$(".button-collapse").sideNav('show');
 							});
-						
+
+						var itemadd = function(){
+							var temp = new Array;
+								$('input[name=item]').each(function(){
+									temp.push($(this).val());
+								})
+
+							return temp;
+						};
+
 						$("#item").on('change', function() {
 							var bakeryid = $(this).val();
 							$('#cartadd').attr("class","btn");
@@ -175,10 +188,8 @@ div.main{
 					  setInterval(function() {
 					    $('.carousel').carousel('next');
 					  }, 2000);
+					$(".button-collapse").sideNav({menuWidth: 500});
 			 })(jQuery)
-		
-			 $(".button-collapse").sideNav({menuWidth: 500});
 	</script>
-	
 </body>
 </html>

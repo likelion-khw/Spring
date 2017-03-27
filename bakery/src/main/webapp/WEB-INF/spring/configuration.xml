@@ -5,6 +5,8 @@
 	<!-- 1.타입 alias 설정 : 선택적 (resultType)-->
 	<typeAliases>
 		<typeAlias alias="bakeryvo" type="com.khw.bakery.BakeryVO" />
+		<typeAlias alias="ordervo" type="com.khw.bakery.OrderVO" />
+		<typeAlias alias="loginvo" type="login.LoginVO" />
 	</typeAliases>
 
 </configuration>

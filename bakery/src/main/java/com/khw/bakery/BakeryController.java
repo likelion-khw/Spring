@@ -18,6 +18,9 @@ public class BakeryController {
 	BakeryServiceImpl service;
 	ModelAndView mav = new ModelAndView();
 	List<BakeryVO> list;
+	
+	@Autowired
+	OrderHistoryVO oh;
 
 	
 	// 상품 주문하기 ======================
@@ -30,7 +33,7 @@ public class BakeryController {
 	}
 
 	@RequestMapping(value = "order.bakery", method = RequestMethod.POST)
-	public ModelAndView orderSuccess(String item) {
+	public ModelAndView orderSuccess(String item, String userid) {
 		String items[] = item.split(",");
 		list = service.order(items);
 		for (String str : items) {
@@ -40,6 +43,10 @@ public class BakeryController {
 			for (BakeryVO vo : list) {
 				if (vo.getBakeryid() == upint[1]) {
 					vo.setBalance(upint[0]);
+					oh.setUserid(userid);
+					oh.setBakeryid(upint[1]);
+					oh.setAmount(upint[0]);
+					service.setOrderHistory(oh);
 				}
 			}
 		}
@@ -57,15 +64,15 @@ public class BakeryController {
 
 	@RequestMapping(value = "insert.bakery", method = RequestMethod.POST)
 	public ModelAndView insertSuccess(BakeryVO vo) throws IOException {
-		String msg = service.insertBakery(vo);
-		if (msg.equals("상품 등록 완료")) {
-			File file = new File("/Users/woong/Documents/workspace_web/bakery/src/main/webapp/" + vo.image);
+		int msg = service.insertBakery(vo);
+		if (msg == 1) {
+			File file = new File("/Users/woong/git/Spring_/bakery/src/main/webapp/" + vo.image);
 			vo.getFile().transferTo(file);
 			mav.addObject("vo",vo);
 		}
 		mav.addObject("msg", msg);
 
-		mav.setViewName("bakery/insertsuccess");
+		mav.setViewName("redirect:/order.bakery");
 		return mav;
 	}
 
@@ -95,12 +102,30 @@ public class BakeryController {
 		return bvo;
 	}
 	
-	
+	// 아이템 검색용 =============
 	@ResponseBody
 	@RequestMapping(value = "itemSearch.bakery", method = RequestMethod.POST)
 	public BakeryVO itemSearch(int bakeryid){
 		BakeryVO bvo = service.getBakeryOne(bakeryid);
 		return bvo;
+	}
+	
+	@RequestMapping(value = "delete.bakery", method = RequestMethod.GET)
+	public String deleteBakery(int bakeryid){
+		System.out.println(bakeryid);
+		service.deleteBakery(bakeryid);
+		return "redirect:/store.bakery";
+	}
+	
+	// 구매히스토리 조회
+	@RequestMapping("orderhistory.bakery")
+	public ModelAndView getOrderHistory(String userid){
+		List<OrderVO> ovo = service.getOrderHistory(userid);
+		
+		mav.addObject("ovo",ovo);
+		mav.addObject("userid",userid);
+		mav.setViewName("bakery/orderhistory");
+		return mav;
 	}
 
 }

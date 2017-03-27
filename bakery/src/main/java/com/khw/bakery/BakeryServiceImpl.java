@@ -24,7 +24,7 @@ public class BakeryServiceImpl implements BakeryService{
 		dao.store();
 	}
 	
-	public String insertBakery(BakeryVO vo){
+	public int insertBakery(BakeryVO vo){
 		return dao.insertBakery(vo);
 	}
 	
@@ -37,6 +37,18 @@ public class BakeryServiceImpl implements BakeryService{
 	}
 	public BakeryVO updateBakery(BakeryVO vo){
 		return dao.updateBakery(vo);
+	}
+	
+	public void deleteBakery(int bakeryid){
+		dao.deleteBakery(bakeryid);
+	}
+	
+	public List<OrderVO> getOrderHistory(String userid){
+		return dao.getOrderHistory(userid);
+	}
+	
+	public void setOrderHistory(OrderHistoryVO oh){
+		dao.setOrderHistory(oh);
 	}
 	
 }

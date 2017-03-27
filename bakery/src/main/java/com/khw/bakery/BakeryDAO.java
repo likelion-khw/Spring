@@ -31,16 +31,16 @@ public class BakeryDAO {
 		return list;
 	}
 	
-	public String insertBakery(BakeryVO vo)
+	public int insertBakery(BakeryVO vo)
 	{
 		int check = session.selectOne("check",vo.getBakeryname());
 		if(check > 0 )
 		{
-			return "해당 상품이 존재합니다.";
+			return 0;
 		}else{
 			
 			session.insert("sell",vo);
-			return "상품 등록 완료";
+			return 1;
 		}
 		
 	}
@@ -62,7 +62,19 @@ public class BakeryDAO {
 	}
 	
 	public int getBalance(int bakeryid){
-		return session.selectOne("balance", bakeryid);
+		return session.selectOne("bakery.balance", bakeryid);
+	}
+	
+	public void deleteBakery(int bakeryid){
+		session.delete("bakery.delete",bakeryid);
+	}
+	
+	public List<OrderVO> getOrderHistory(String userid){
+		return session.selectList("bakery.selectOrderHistory",userid);
+	}
+	
+	public void setOrderHistory(OrderHistoryVO oh){
+		session.insert("bakery.insertOrderHistory",oh);
 	}
 	
 	
