@@ -109,7 +109,7 @@ public class BakeryController {
 		BakeryVO bvo = service.getBakeryOne(bakeryid);
 		return bvo;
 	}
-	
+	// 아이템 삭제용 =============
 	@RequestMapping(value = "delete.bakery", method = RequestMethod.GET)
 	public String deleteBakery(int bakeryid){
 		System.out.println(bakeryid);

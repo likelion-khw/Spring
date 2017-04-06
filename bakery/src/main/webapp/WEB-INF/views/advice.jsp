@@ -34,7 +34,12 @@
 }
 
 .nav-wrapper {
-	background-color: #00796b;
+	background-color: #6d4c41;
+}
+
+body{	
+
+ background-color: #efebe9;
 }
 </style>
 </head>
@@ -44,7 +49,7 @@
 		<div class="nav-wrapper">
 			<a href="order.bakery" class="brand-logo center">Bakery Mart</a>
 			<ul class="right hide-on-med-and-down">
-				<li style="color: black; margin-left: 40px;"><span
+				<li style="color: white; margin-left: 40px;"><span
 					style="font-size: 20px;">${loginvo.name}님 </span></li>
 				<li><a href="end.bakery">로그아웃</a></li>
 			</ul>

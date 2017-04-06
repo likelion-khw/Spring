@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 	@Autowired
 	LoginServiceImpl service;
-	
+	ModelAndView mav = new ModelAndView();
 	
 	@RequestMapping(value="start.bakery", method=RequestMethod.GET)
 	public String login(){
@@ -22,28 +23,24 @@ public class LoginController {
 	
 	@RequestMapping(value="start.bakery", method=RequestMethod.POST)
 	public ModelAndView login(LoginVO vo){
-		ModelAndView mav = new ModelAndView();
+		mav.addObject("loginvo",service.memberOne(vo.userid));
+		mav.setViewName("redirect:/order.bakery");
+		return mav;
+	}
+	@ResponseBody
+	@RequestMapping(value="startcheck.bakery", method=RequestMethod.POST)
+	public int loginCheck(LoginVO vo){
 		String result = service.login(vo);
-		String msg ="";
-		mav.addObject("id",null);
+		int msg = 0;
 		
 		if(result.equals("idno"))
 		{
-			msg = "해당 아이디가 존재하지 않습니다.";
-			mav.setViewName("login/loginform");
-			mav.addObject("msg",msg);
+			msg = 1;
 		}else if(result.equals("pwd"))
 		{
-			msg = "패스워드를 확인해주세요.";
-			mav.addObject("id",vo.getUserid());
-			mav.setViewName("login/loginform");
-			mav.addObject("msg",msg);
-		}else if(result.equals("ok"))
-		{
-			mav.addObject("loginvo",service.memberOne(vo.getUserid()));
-			mav.setViewName("redirect:/order.bakery");
+			msg = 2;
 		}
-		return mav;
+		return msg;
 	}
 	
 	@RequestMapping(value="end.bakery", method=RequestMethod.GET)
